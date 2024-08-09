@@ -33,8 +33,8 @@ const App = ({ darkMode, setDarkMode }) => {
             }}
           >
             <div className="align-left flex flex-col p-12 gap-4 z-10">
-              <div className="text-6xl playfair tracking-tighter w-full select-none z-10">Hi, I'm <br />Sanjay!</div>
-              <div className="text-xs tracking-tighter italic select-none z-10">
+              <div className="text-6xl playfair tracking-tighter w-full  z-10">Hi, I'm <br />Sanjay!</div>
+              <div className="text-xs tracking-tighter italic z-10">
                 <div>{Math.floor((new Date().getTime() - new Date("6/6/2007").getTime()) / (1000 * 60 * 60 * 24 * 365.25) * 100) / 100} years old @ <br />Edison Academy Magnet School</div>
               </div>
             </div>
@@ -48,7 +48,7 @@ const App = ({ darkMode, setDarkMode }) => {
               stiffness: 300,
               damping: 25
             }}
-            className="hero-image-container select-none"
+            className="hero-image-container"
           >
             <div className="hero-image-wrapper" />
             <div className={`hero-image border-black`}>

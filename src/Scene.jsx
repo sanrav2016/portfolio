@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, Suspense } from 'react'
 import * as THREE from "three"
 import { Canvas, extend, useFrame, useThree } from '@react-three/fiber'
-import { shaderMaterial, useFBO } from "@react-three/drei";
+import { OrbitControls, shaderMaterial, useFBO } from "@react-three/drei";
 import vert from './shaders/vertex.glsl'
 import frag from './shaders/fragment.glsl'
 
@@ -95,10 +95,6 @@ const Wave = () => {
     });
   }(100));
 
-  document.addEventListener("mousedown", (e) => {
-    bufferMaterial.current.uniforms.mouseMove.value = true;
-  })
-
   const onMouseMove = (e) => {
     bufferMaterial.current.uniforms.mouseMove.value = true;
     let { b, x, y } = getUV(e)
@@ -108,23 +104,32 @@ const Wave = () => {
     bufferMaterial.current.uniforms.mouse.value.y = y;
   }
 
+  const onMouseEnd = (e) => {
+    bufferMaterial.current.uniforms.mouseMove.value = false;
+  }
+
+  document.addEventListener("mousedown", onMouseMove);
   document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("touchstart", onMouseMove);
   document.addEventListener("touchmove", onMouseMove);
 
-  document.addEventListener("mouseend", (e) => {
-    bufferMaterial.current.uniforms.mouseMove.value = false;
-  })
+  document.addEventListener("mouseend", onMouseEnd)
+  document.addEventListener("mouseup", onMouseEnd)
+  document.addEventListener("touchend", onMouseEnd)
 
-  return <mesh ref={meshRef} position={[0, 0, 0]}>
-    <planeGeometry args={[Math.max(viewport.width, viewport.height), Math.max(viewport.width, viewport.height)]} />
-    <meshBasicMaterial map={rtB.texture} />
-  </mesh>
+  return <>
+    <mesh ref={meshRef} position={[0, 0, 0]}>
+      <planeGeometry args={[Math.max(viewport.width, viewport.height), Math.max(viewport.width, viewport.height)]} />
+      <meshBasicMaterial map={rtB.texture} toneMapped={false} />
+    </mesh>
+  </>
 }
 
 const Scene = () => {
   return (
     <div className="fixed w-screen h-screen top-0 left-0 object-cover select-none">
-      <Canvas>
+      <div className="absolute top-0 left-0 w-full h-full bg-transparent" />
+      <Canvas onContextMenu={(e) => e.preventDefault()}>
         <Wave />
       </Canvas>
     </div>

@@ -77,7 +77,7 @@ void main() {
     vec4 prevVec = texture2D(prev, vUv);
 
     float dist = distance(vUv, mouse);
-    float disp = fbm(vUv * 22.0, 10) * 0.001;
+    float disp = fbm(vUv * 22.0, 5) * 0.001;
 
     vec4 texel2 = texture2D(prev, vUv + vec2(disp, 0));
     vec4 texel3 = texture2D(prev, vUv + vec2(-disp, 0));
@@ -89,10 +89,10 @@ void main() {
     floodColor = blendDarken(floodColor, texel4.rgb);
     floodColor = blendDarken(floodColor, texel5.rgb);
 
-    vec3 watercolor = mix(vec3(1), floodColor, 0.99);
-    gl_FragColor = vec4(watercolor, 0.5);
-    vec3 gradient = hsl2rgb(vec3(fract(uTime*0.1), 0.7, 0.5));
-    if(dist < disp * 100. + 0.005 && mouseMove) {
+    vec3 watercolor = mix(vec3(1), floodColor, 0.98);
+    gl_FragColor = vec4(watercolor, 1);
+    vec3 gradient = hsl2rgb(vec3(fract(uTime*0.1), 0.9, 0.5));
+    if(dist < disp * 150. + 0.02 && mouseMove) {
         gl_FragColor = vec4(gradient, 1.0);
     }
 }
