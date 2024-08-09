@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import './app.scss'
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom'
+import Scene from './Scene.jsx'
 
 import profile from '../assets/img/profile.png'
 
@@ -16,12 +17,8 @@ const App = ({ darkMode, setDarkMode }) => {
     })
   }, [])
 
-  return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
-    <div className="fixed top-4 right-4 w-8 h-8 flex justify-center items-center">
-      <span onClick={() => setDarkMode(!darkMode)} className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
-        {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
-      </span>
-    </div>
+  return <div className={`w-full h-full relative transition-all`}>
+    <Scene />
     <section className="flex-row h-[100vh]">
       <div>
         <div className="flex flex-wrap justify-center items-center">
@@ -35,9 +32,9 @@ const App = ({ darkMode, setDarkMode }) => {
               damping: 25
             }}
           >
-            <div className="align-left flex flex-col p-12 gap-4">
-              <div className="text-6xl playfair tracking-tighter w-full">Hi, I'm <br />Sanjay!</div>
-              <div className="text-xs tracking-tighter italic">
+            <div className="align-left flex flex-col p-12 gap-4 z-10">
+              <div className="text-6xl playfair tracking-tighter w-full select-none z-10">Hi, I'm <br />Sanjay!</div>
+              <div className="text-xs tracking-tighter italic select-none z-10">
                 <div>{Math.floor((new Date().getTime() - new Date("6/6/2007").getTime()) / (1000 * 60 * 60 * 24 * 365.25) * 100) / 100} years old @ <br />Edison Academy Magnet School</div>
               </div>
             </div>
@@ -51,10 +48,10 @@ const App = ({ darkMode, setDarkMode }) => {
               stiffness: 300,
               damping: 25
             }}
-            className="hero-image-container"
+            className="hero-image-container select-none"
           >
             <div className="hero-image-wrapper" />
-            <div className={`hero-image ${darkMode ? "border-white" : "border-black"}`}>
+            <div className={`hero-image border-black`}>
               <img src={profile} />
             </div>
           </motion.div>
@@ -77,7 +74,7 @@ const App = ({ darkMode, setDarkMode }) => {
               key={i}
             >
               <Link to={`/${x.slug}`}>
-                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
+                <div className="tile border-black" style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
               </Link>
             </motion.span>
           )
@@ -100,7 +97,7 @@ const App = ({ darkMode, setDarkMode }) => {
               key={i}
             >
               <Link to={`/${x.slug}`}>
-                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
+                <div className="tile border-black" style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
               </Link>
             </motion.span>
           )
@@ -123,7 +120,7 @@ const App = ({ darkMode, setDarkMode }) => {
               key={i}
             >
               <Link to={`/${x.slug}`}>
-                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
+                <div className="tile border-black" style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
               </Link>
             </motion.span>
           )

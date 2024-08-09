@@ -8,6 +8,8 @@ import { toHTML } from '@portabletext/to-html'
 import htm from 'htm'
 import vhtml from 'vhtml'
 import parse from 'html-react-parser';
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 const html = htm.bind(vhtml)
 
@@ -30,7 +32,7 @@ const components = {
   },
 }
 
-const Blog = ({ darkMode, setDarkMode }) => {
+const Blog = () => {
   let { slug } = useParams();
 
   const [title, setTitle] = useState("")
@@ -41,27 +43,23 @@ const Blog = ({ darkMode, setDarkMode }) => {
 
   useEffect(() => {
     cdnClient.fetch(`*[_type == 'post' && slug.current == '${slug}']{ _id, title, publishedAt, author->, mainImage, body }[0]`).then((data) => {
+      window.scrollTo(0, 0);
       setTitle(data.title)
-      setPublishedAt(new Date(data.publishedAt).toDateString())
+      setPublishedAt(new Date(data.publishedAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }))
       setAuthor(data.author.name)
       setMainImage(data.mainImage)
       setBody(data.body)
     })
   }, [])
 
-  return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
+  return <div className={`w-full h-full relative transition-all`}>
     <Link to="/">
       <div className="fixed top-4 left-4 w-8 h-8 flex justify-center items-center">
-        <span className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
+        <span className={`icon bg-white`} style={{ "border": 0 }}>
           <IoArrowBack />
         </span>
       </div>
     </Link>
-    <div className="fixed top-4 right-4 w-8 h-8 flex justify-center items-center">
-      <span onClick={() => setDarkMode(!darkMode)} className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
-        {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
-      </span>
-    </div>
     <section className="hero-blog-wrapper" style={{ backgroundImage: `url(${mainImage ? urlFor(mainImage).url() : mainImage})` }}>
       <div>
         <div className="flex flex-wrap justify-center items-center">
@@ -75,7 +73,7 @@ const Blog = ({ darkMode, setDarkMode }) => {
               damping: 25
             }}
           >
-            <div className={`align-left flex flex-col p-12 gap-4 ${darkMode ? "bg-black" : "bg-white"}`}>
+            <div className={`align-left flex flex-col p-12 gap-4 bg-white`}>
               <div className="text-5xl playfair tracking-tighter w-full">{title}</div>
               <div className="text-xs tracking-tighter italic">
                 <div>{author}<br />{publishedAt}</div>
@@ -85,13 +83,21 @@ const Blog = ({ darkMode, setDarkMode }) => {
         </div>
       </div>
     </section>
-    <section className={`w-full h-full ${darkMode ? "bg-black" : "bg-white"}`}>
+    <section className={`w-full h-full bg-white`}>
       <div className="body-content bg-transparent">
-        {
-          parse(toHTML(body, {
-            components: components
-          }))
-        }
+        <PhotoProvider>
+          {
+            parse(toHTML(body, {
+              components: components
+            }), {
+              replace(domNode) {
+                if (domNode.attribs && domNode.name === "img") {
+                  return <PhotoView src={domNode.attribs.src}><img src={domNode.attribs.src} /></PhotoView>
+                }
+              }
+            })
+          }
+        </PhotoProvider>
       </div>
     </section>
   </div >
