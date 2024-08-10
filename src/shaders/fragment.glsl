@@ -2,6 +2,7 @@ uniform float uTime;
 uniform vec2 mouse;
 uniform sampler2D prev;
 uniform bool mouseMove;
+uniform bool dark;
 varying vec2 vUv;
 
 float rand(vec2 n) {
@@ -35,7 +36,7 @@ float fbm(vec2 x, int numOctaves) {
 }
 
 float blendDarken(float base, float blend) {
-    return min(blend, base);
+    return dark ? max(blend, base) : min(blend, base);
 }
 vec3 blendDarken(vec3 base, vec3 blend) {
     return vec3(blendDarken(base.r, blend.r), blendDarken(base.g, blend.g), blendDarken(base.b, blend.b));
@@ -89,7 +90,8 @@ void main() {
     floodColor = blendDarken(floodColor, texel4.rgb);
     floodColor = blendDarken(floodColor, texel5.rgb);
 
-    vec3 watercolor = mix(vec3(1), floodColor, 0.98);
+    vec3 bkg = dark ? vec3(0) : vec3(1);
+    vec3 watercolor = mix(bkg, floodColor, 0.98);
     gl_FragColor = vec4(watercolor, 1);
     vec3 gradient = hsl2rgb(vec3(fract(uTime*0.1), 0.9, 0.5));
     if(dist < disp * 150. + 0.02 && mouseMove) {

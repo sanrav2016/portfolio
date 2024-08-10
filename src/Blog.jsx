@@ -32,7 +32,7 @@ const components = {
   },
 }
 
-const Blog = () => {
+const Blog = ({ darkMode, setDarkMode }) => {
   let { slug } = useParams();
 
   const [title, setTitle] = useState("")
@@ -52,14 +52,19 @@ const Blog = () => {
     })
   }, [])
 
-  return <div className={`w-full h-full relative transition-all`}>
+  return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
     <Link to="/">
       <div className="fixed top-4 left-4 w-8 h-8 flex justify-center items-center">
-        <span className={`icon bg-white`} style={{ "border": 0 }}>
+        <span className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
           <IoArrowBack />
         </span>
       </div>
     </Link>
+    <div className="fixed top-4 right-4 w-8 h-8 flex justify-center items-center">
+      <span onClick={() => setDarkMode(!darkMode)} className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
+        {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
+      </span>
+    </div>
     <section className="hero-blog-wrapper" style={{ backgroundImage: `url(${mainImage ? urlFor(mainImage).url() : mainImage})` }}>
       <div>
         <div className="flex flex-wrap justify-center items-center">
@@ -73,7 +78,7 @@ const Blog = () => {
               damping: 25
             }}
           >
-            <div className={`align-left flex flex-col p-12 gap-4 bg-white`}>
+            <div className={`align-left flex flex-col p-12 gap-4 ${darkMode ? "bg-black" : "bg-white"}`}>
               <div className="text-5xl playfair tracking-tighter w-full">{title}</div>
               <div className="text-xs tracking-tighter italic">
                 <div>{author}<br />{publishedAt}</div>
@@ -83,7 +88,7 @@ const Blog = () => {
         </div>
       </div>
     </section>
-    <section className={`w-full h-full bg-white`}>
+    <section className={`w-full h-full ${darkMode ? "bg-black" : "bg-white"}`}>
       <div className="body-content bg-transparent">
         <PhotoProvider>
           {

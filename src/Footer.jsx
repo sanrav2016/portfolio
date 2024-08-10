@@ -11,7 +11,7 @@ const Footer = () => {
         <span className="icon"><FaInstagram /></span>
         <span className="icon"><a href="https://www.linkedin.com/in/sanjay-ravishankar-399308296/" target="_blank"><FaLinkedinIn /></a></span>
       </div>
-      <span className="absolute bottom-2 text-xs tracking-tighter italic">Made with React, Vite, and Sanity.io</span>
+      <span className="absolute bottom-2 text-xs tracking-tighter italic">Made with React, Vite, THREE.js and Sanity.io</span>
     </section>
   )
 }

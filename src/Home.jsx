@@ -8,7 +8,7 @@ import Scene from './Scene.jsx'
 
 import profile from '../assets/img/profile.png'
 
-const App = ({ darkMode, setDarkMode }) => {
+const Home = ({ darkMode, setDarkMode }) => {
   const [projects, setProjects] = useState([])
 
   useEffect(() => {
@@ -17,8 +17,13 @@ const App = ({ darkMode, setDarkMode }) => {
     })
   }, [])
 
-  return <div className={`w-full h-full relative transition-all`}>
-    <Scene />
+  return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
+    <div className="fixed top-4 right-4 w-8 h-8 flex justify-center items-center z-10">
+      <span onClick={() => setDarkMode(!darkMode)} className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
+        {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
+      </span>
+    </div>
+    <Scene darkMode={darkMode} />
     <section className="flex-row h-[100vh]">
       <div>
         <div className="flex flex-wrap justify-center items-center">
@@ -51,7 +56,7 @@ const App = ({ darkMode, setDarkMode }) => {
             className="hero-image-container"
           >
             <div className="hero-image-wrapper" />
-            <div className={`hero-image border-black`}>
+            <div className={`hero-image ${darkMode ? "border-white" : "border-black"}`}>
               <img src={profile} />
             </div>
           </motion.div>
@@ -74,7 +79,7 @@ const App = ({ darkMode, setDarkMode }) => {
               key={i}
             >
               <Link to={`/${x.slug}`}>
-                <div className="tile border-black" style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
+                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
               </Link>
             </motion.span>
           )
@@ -97,7 +102,7 @@ const App = ({ darkMode, setDarkMode }) => {
               key={i}
             >
               <Link to={`/${x.slug}`}>
-                <div className="tile border-black" style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
+                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
               </Link>
             </motion.span>
           )
@@ -120,7 +125,7 @@ const App = ({ darkMode, setDarkMode }) => {
               key={i}
             >
               <Link to={`/${x.slug}`}>
-                <div className="tile border-black" style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
+                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
               </Link>
             </motion.span>
           )
@@ -130,4 +135,4 @@ const App = ({ darkMode, setDarkMode }) => {
   </div >
 };
 
-export default App;
+export default Home;

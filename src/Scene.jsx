@@ -9,7 +9,8 @@ const colorMaterial = shaderMaterial({
   uTime: 0,
   mouse: { x: 0, y: 0 },
   mouseMove: false,
-  prev: null
+  prev: null,
+  dark: false
 },
   vert,
   frag
@@ -17,7 +18,7 @@ const colorMaterial = shaderMaterial({
 
 extend({ ColorMaterial: colorMaterial });
 
-const Wave = () => {
+const Wave = ({ darkMode }) => {
   const { gl, size, viewport, camera } = useThree();
 
   const bufferMaterial = useRef();
@@ -34,11 +35,12 @@ const Wave = () => {
     mouseMove: false,
     prev: rtA.texture,
     uTime: 0,
+    dark: false
   });
 
   const plane = new THREE.PlaneGeometry(1, 1);
   const bufferObject = new THREE.Mesh(plane, bufferMaterial.current);
-  const backgroundMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const backgroundMaterial = new THREE.MeshBasicMaterial();
   const backgroundObject = new THREE.Mesh(plane, backgroundMaterial);
 
   backgroundObject.scale.set(viewport.width, viewport.height, 1)
@@ -47,11 +49,13 @@ const Wave = () => {
   initialScene.add(backgroundObject);
 
   useEffect(() => {
+    bufferMaterial.current.uniforms.dark.value = darkMode;
+    backgroundMaterial.color = darkMode ? new THREE.Color(0, 0, 0) : new THREE.Color(255, 255, 255);
     gl.setRenderTarget(rtA)
     gl.clear()
     gl.render(initialScene, camera)
     gl.setRenderTarget(null)
-  }, [size.width, size.height])
+  }, [size.width, size.height, darkMode])
 
   useFrame(({ gl, camera, clock }) => {
     gl.setRenderTarget(rtB)
@@ -125,12 +129,12 @@ const Wave = () => {
   </>
 }
 
-const Scene = () => {
+const Scene = ({ darkMode }) => {
   return (
     <div className="fixed w-screen h-screen top-0 left-0 object-cover select-none">
       <div className="absolute top-0 left-0 w-full h-full bg-transparent" />
       <Canvas onContextMenu={(e) => e.preventDefault()}>
-        <Wave />
+        <Wave darkMode={darkMode} />
       </Canvas>
     </div>
   )
