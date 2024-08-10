@@ -20,6 +20,7 @@ extend({ ColorMaterial: colorMaterial });
 
 const Wave = ({ darkMode }) => {
   const { gl, size, viewport, camera } = useThree();
+  gl.setPixelRatio(window.devicePixelRatio);
 
   const bufferMaterial = useRef();
   const bufferScene = useMemo(() => new THREE.Scene(), []);
@@ -30,27 +31,25 @@ const Wave = ({ darkMode }) => {
   let rtA = useFBO();
   let rtB = useFBO();
 
-  bufferMaterial.current = new colorMaterial({
-    mouse: { x: 0, y: 0 },
-    mouseMove: false,
-    prev: rtA.texture,
-    uTime: 0,
-    dark: false
-  });
+  bufferMaterial.current = new colorMaterial(useMemo(() => {
+    return {
+      mouse: { x: 0, y: 0 },
+      mouseMove: false,
+      prev: rtA.texture,
+      uTime: 0,
+      dark: darkMode
+    }}, [darkMode]));  
 
   const plane = new THREE.PlaneGeometry(1, 1);
   const bufferObject = new THREE.Mesh(plane, bufferMaterial.current);
-  const backgroundMaterial = new THREE.MeshBasicMaterial();
-  const backgroundObject = new THREE.Mesh(plane, backgroundMaterial);
+  const black = new THREE.Color(0);
+  const white = new THREE.Color(0xffffff);
 
-  backgroundObject.scale.set(viewport.width, viewport.height, 1)
   bufferObject.scale.set(viewport.width, viewport.height, 1);
   bufferScene.add(bufferObject);
-  initialScene.add(backgroundObject);
 
   useEffect(() => {
-    bufferMaterial.current.uniforms.dark.value = darkMode;
-    backgroundMaterial.color = darkMode ? new THREE.Color(0, 0, 0) : new THREE.Color(255, 255, 255);
+    initialScene.background = darkMode ? black : white;
     gl.setRenderTarget(rtA)
     gl.clear()
     gl.render(initialScene, camera)
@@ -134,7 +133,9 @@ const Scene = ({ darkMode }) => {
     <div className="fixed w-screen h-screen top-0 left-0 object-cover select-none">
       <div className="absolute top-0 left-0 w-full h-full bg-transparent" />
       <Canvas onContextMenu={(e) => e.preventDefault()}>
-        <Wave darkMode={darkMode} />
+        <Suspense>
+          <Wave darkMode={darkMode} />
+        </Suspense>
       </Canvas>
     </div>
   )
