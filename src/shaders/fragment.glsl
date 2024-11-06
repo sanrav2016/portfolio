@@ -47,13 +47,13 @@ vec3 blendDarken(vec3 base, vec3 blend, float opacity) {
 }
 
 vec3 hsl2rgb(vec3 hsl) {
-    float h = hsl.x; // Hue
-    float s = hsl.y; // Saturation
-    float l = hsl.z; // Lightness
+    float h = hsl.x; 
+    float s = hsl.y; 
+    float l = hsl.z; 
 
-    float c = (1.0 - abs(2.0 * l - 1.0)) * s; // Chroma
-    float x = c * (1.0 - abs(mod(h * 6.0, 2.0) - 1.0)); // Intermediate value
-    float m = l - c * 0.5; // Offset
+    float c = (1.0 - abs(2.0 * l - 1.0)) * s; 
+    float x = c * (1.0 - abs(mod(h * 6.0, 2.0) - 1.0)); 
+    float m = l - c * 0.5;
 
     vec3 rgb;
 

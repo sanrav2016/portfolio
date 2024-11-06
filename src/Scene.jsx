@@ -10,7 +10,8 @@ const colorMaterial = shaderMaterial({
   mouse: { x: 0, y: 0 },
   mouseMove: false,
   prev: null,
-  dark: false
+  dark: false,
+  speed: 0
 },
   vert,
   frag
@@ -37,7 +38,8 @@ const Wave = ({ darkMode }) => {
       mouseMove: false,
       prev: rtA.texture,
       uTime: 0,
-      dark: darkMode
+      dark: darkMode,
+      speed: 0
     }}, [darkMode]));  
 
   const plane = new THREE.PlaneGeometry(1, 1);

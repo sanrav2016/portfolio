@@ -4,6 +4,7 @@ import Home from './Home.jsx'
 import Blog from './Blog.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Footer from './Footer'
+import { Analytics } from "@vercel/analytics/react"
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false)
@@ -19,6 +20,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       <Footer />
+      <Analytics />
     </>
   )
 }
