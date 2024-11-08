@@ -147,7 +147,7 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    gap: 60px;
     margin: 50px 0;
     text-align: center;
 }
@@ -159,9 +159,10 @@ section {
 }
 
 .body-content img {
-    margin: 50px 0;
     cursor: pointer;
     transition: 0.2s;
+    max-height: 300px;
+    object-fit: contain;
 }
 
 .body-content img:hover {
@@ -170,6 +171,6 @@ section {
 
 @media screen and (min-width: 900px) {
     .body-content {
-        margin: 50px 10%;
+        margin: 50px 15%;
     }
 }
