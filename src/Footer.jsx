@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="flex flex-row gap-3">
         <span className="icon"><a href="mailto:sanrav2016@gmail.com" target="_blank"><HiOutlineMail /></a></span>
         <span className="icon"><a href="https://github.com/sanrav2016" target="_blank"><FaGithub /></a></span>
-        <span className="icon"><FaInstagram /></span>
+        <span className="icon"><a href="https://www.instagram.com/sanrav2016/" target="_blank"><FaInstagram /></a></span>
         <span className="icon"><a href="https://www.linkedin.com/in/sanjay-ravishankar-399308296/" target="_blank"><FaLinkedinIn /></a></span>
       </div>
       <span className="absolute bottom-2 text-xs tracking-tighter italic">Made with React, Vite, THREE.js and Sanity.io</span>
