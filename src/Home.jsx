@@ -55,7 +55,7 @@ const Home = ({ darkMode, setDarkMode }) => {
             <div className="align-left flex flex-col p-12 gap-4 z-10">
               <div className="text-6xl playfair tracking-tighter w-full  z-10">Hi, I'm <br />Sanjay!</div>
               <div className="text-xs tracking-tighter italic z-10">
-                <div>{age.toFixed(9) years old @ <br />Carnegie Mellon University</div>
+                <div>{age.toFixed(9)} years old @ <br />Carnegie Mellon University</div>
               </div>
             </div>
           </motion.div>
