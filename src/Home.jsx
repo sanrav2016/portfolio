@@ -10,6 +10,21 @@ import profile from '../assets/img/profile.png'
 
 const Home = ({ darkMode, setDarkMode }) => {
   const [projects, setProjects] = useState([])
+  const [age, setAge] = useState(0);
+
+  useEffect(() => {
+    const birthDate = new Date("2007-06-06T10:04:00");
+    const updateAge = () => {
+      const now = new Date();
+      const diffMs = now - birthDate;
+      const years = diffMs / (1000 * 60 * 60 * 24 * 365.2425);
+      setAge(years);
+    };
+
+    updateAge();
+    const interval = setInterval(updateAge, 50);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     cdnClient.fetch(`*[_type == 'post']{ _id, "slug": slug.current, mainImage, "category": category->title } | order(dateTime(_updatedAt) desc)`).then((data) => {
@@ -40,7 +55,7 @@ const Home = ({ darkMode, setDarkMode }) => {
             <div className="align-left flex flex-col p-12 gap-4 z-10">
               <div className="text-6xl playfair tracking-tighter w-full  z-10">Hi, I'm <br />Sanjay!</div>
               <div className="text-xs tracking-tighter italic z-10">
-                <div>{Math.floor((new Date().getTime() - new Date("6/6/2007").getTime()) / (1000 * 60 * 60 * 24 * 365.25) * 100) / 100} years old @ <br />Edison Academy Magnet School</div>
+                <div>{age.toFixed(9) years old @ <br />Carnegie Mellon University</div>
               </div>
             </div>
           </motion.div>
