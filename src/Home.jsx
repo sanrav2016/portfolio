@@ -5,6 +5,7 @@ import './app.scss'
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom'
 import Scene from './Scene.jsx'
+import { Icons } from './Footer'
 
 import profile from '../assets/img/profile.png'
 
@@ -14,14 +15,10 @@ const Home = ({ darkMode, setDarkMode }) => {
 
   useEffect(() => {
     const birthDate = new Date("2007-06-06T10:04:00");
-    const updateAge = () => {
-      const now = new Date();
-      const diffMs = now - birthDate;
-      const years = diffMs / (1000 * 60 * 60 * 24 * 365.2425);
-      setAge(years);
-    };
-
-    updateAge();
+    const now = new Date();
+    const diffMs = now - birthDate;
+    const years = diffMs / (1000 * 60 * 60 * 24 * 365.2425);
+    setAge(years);
   }, []);
 
   useEffect(() => {
@@ -32,7 +29,7 @@ const Home = ({ darkMode, setDarkMode }) => {
 
   return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
     <div className="fixed top-4 right-4 w-8 h-8 flex justify-center items-center z-10">
-      <span onClick={() => setDarkMode(!darkMode)} className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
+      <span onClick={() => setDarkMode(!darkMode)} className={`${darkMode ? "icon-dark" : "icon-light"}`} style={{ "border": 0 }}>
         {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
       </span>
     </div>
@@ -53,8 +50,12 @@ const Home = ({ darkMode, setDarkMode }) => {
             <div className="align-left flex flex-col p-12 gap-4 z-10">
               <div className="text-6xl playfair tracking-tighter w-full  z-10">Hi, I'm <br />Sanjay!</div>
               <div className="text-xs tracking-tighter italic z-10">
-                <div>{age.toFixed(2)} years old @ <br />Carnegie Mellon University</div>
+                <div>{Math.round(age)} years old @ <br />Carnegie Mellon University</div>
+                <div>
+                  <Icons darkMode={darkMode} />
+                </div>
               </div>
+
             </div>
           </motion.div>
           <motion.div

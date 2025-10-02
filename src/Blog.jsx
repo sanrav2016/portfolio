@@ -55,13 +55,13 @@ const Blog = ({ darkMode, setDarkMode }) => {
   return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
     <Link to="/">
       <div className="fixed top-4 left-4 w-8 h-8 flex justify-center items-center">
-        <span className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
+        <span className={`${darkMode ? "icon-dark" : "icon-light"}`} style={{ "border": 0 }}>
           <IoArrowBack />
         </span>
       </div>
     </Link>
     <div className="fixed top-4 right-4 w-8 h-8 flex justify-center items-center">
-      <span onClick={() => setDarkMode(!darkMode)} className={`icon ${darkMode ? "bg-black" : "bg-white"}`} style={{ "border": 0 }}>
+      <span onClick={() => setDarkMode(!darkMode)} className={`${darkMode ? "icon-dark" : "icon-light"}`} style={{ "border": 0 }}>
         {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
       </span>
     </div>
