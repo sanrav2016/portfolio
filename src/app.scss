@@ -14,8 +14,15 @@ body {
     height: 100%;
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
     font-family: 'Reddit Sans', sans-serif;
     position: relative;
+}
+
+@media screen and (max-width: 768px) {
+  html, body {
+    scroll-snap-type: none;
+  }
 }
 
 .heading-text {

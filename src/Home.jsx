@@ -10,10 +10,32 @@ import LofiPlayer from "./LofiPlayer.jsx";
 
 import headshot from '../assets/img/headshot.jpeg'
 
+const useIsSmallScreen = (breakpoint = 768) => {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleWindowSizeChange = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowSizeChange);
+
+    // Initial check on mount (important for server-side rendering concerns)
+    handleWindowSizeChange();
+
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    };
+  }, []);
+
+  return width <= breakpoint;
+}
+
 const Home = ({ darkMode, setDarkMode }) => {
   const [projects, setProjects] = useState([])
   const [age, setAge] = useState(0);
   const [scrollPos, setScrollPos] = useState(0);
+  const isSmallScreen = useIsSmallScreen(768)
 
   const handleScroll = () => {
     const projectContainer = document.querySelector("#project-container");
@@ -149,6 +171,7 @@ const Home = ({ darkMode, setDarkMode }) => {
               textAnchor="middle"
               dominantBaseline="middle"
               fontSize="8vw"
+              opacity={isSmallScreen ? 0 : 1}
               lengthAdjust="spacingAndGlyphs"
               fill={`rgba(0,0,0,${scrollPos})`}
               fontFamily="BBH Bartle"
@@ -158,7 +181,7 @@ const Home = ({ darkMode, setDarkMode }) => {
           </mask>
         </defs>
       </svg>
-      <div className="absolute top-0 left-0 w-full h-screen flex justify-center items-center pointer-events-none z-50">
+      <div className="sticky md:absolute top-0 left-0 w-full h-screen  justify-center items-center pointer-events-none z-50">
         <svg
           className="w-full h-full absolute inset-0 pointer-events-none"
         >
@@ -169,16 +192,31 @@ const Home = ({ darkMode, setDarkMode }) => {
             dominantBaseline="middle"
             fontSize="8vw"
             lengthAdjust="spacingAndGlyphs"
-            opacity={`${scrollPos}`}
+            opacity={`${isSmallScreen ? 0 : scrollPos}`}
             stroke={darkMode ? "white" : "black"}
             strokeWidth="2"
             fontFamily="BBH Bartle"
           >
             PROJECTS
           </text>
+          <text
+            x="50%"
+            y="50%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8vw"
+            lengthAdjust="spacingAndGlyphs"
+            opacity={`${isSmallScreen ? 1 : 0}`}
+            stroke={darkMode ? "white" : "black"}
+            fill={!darkMode ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)"}
+            strokeWidth="1"
+            fontFamily="BBH Bartle"
+          >
+            PROJECTS
+          </text>
         </svg>
       </div>
-      <div className="flex flex-wrap w-full">
+      <div className="flex flex-wrap w-full mt-[-100vh] md:mt-0">
         {
           projects.map((x, i) =>
             <motion.span

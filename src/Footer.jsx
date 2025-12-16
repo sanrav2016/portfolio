@@ -1,6 +1,6 @@
 import React from 'react'
 import { HiOutlineMail } from "react-icons/hi";
-import { FaGithub, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedinIn, FaHeart } from "react-icons/fa";
 
 export const Icons = ({ darkMode }) => {
   return (
@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <section className="bg-black h-[250px] text-white border-t-white border-b-slate-800 border-y-2 relative">
       <Icons darkMode={true} />
-      <span className="absolute bottom-2 text-xs  font-thin">Made with ❤️ by Sanjay Ravishankar</span>
+      <span className="absolute bottom-2 text-xs font-thin flex flex-row items-center gap-1"><span>Made with </span><FaHeart color="tomato" /><span> by Sanjay Ravishankar</span></span>
     </section>
   )
 }
