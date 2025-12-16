@@ -64,7 +64,7 @@ const Home = ({ darkMode, setDarkMode }) => {
   }, []);
 
   useEffect(() => {
-    cdnClient.fetch(`*[_type == 'post']{ _id, "slug": slug.current, mainImage, "category": category->title } | order(dateTime(_updatedAt) desc)`).then((data) => {
+    cdnClient.fetch(`*[_type == 'post']{ _id, "slug": slug.current, mainImage, title, publishedAt } | order(dateTime(publishedAt) desc)`).then((data) => {
       setProjects(data)
     })
   }, [])
@@ -235,7 +235,12 @@ const Home = ({ darkMode, setDarkMode }) => {
               }}
             >
               <Link to={`/${x.slug}`}>
-                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
+                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }}>
+                  <div className="tile-text">
+                    <div className="tile-title">{x.title}</div>
+                    <div className="tile-date">{new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(x.publishedAt))}</div>
+                  </div>
+                </div>
               </Link>
             </motion.span>
           )
