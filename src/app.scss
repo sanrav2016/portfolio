@@ -4,7 +4,7 @@
 
 ::selection {
     color: white;
-    background: rgba(255, 60, 60, 0.615);
+    background: rgba(255, 0, 0, 0.5);
 }
 
 html,
@@ -14,12 +14,16 @@ body {
     height: 100%;
     scroll-behavior: smooth;
     scroll-snap-type: y mandatory;
-    font-family: 'Reddit Mono', sans-serif;
+    font-family: 'Reddit Sans', sans-serif;
     position: relative;
 }
 
-.playfair {
-    font-family: 'Playfair Display', serif;
+.heading-text {
+    font-family: 'BBH Bogle', serif;
+}
+
+.title-text {
+    font-family: 'BBH Bartle', serif;
 }
 
 section {
@@ -59,9 +63,9 @@ section {
     width: calc(15rem + 10px);
     height: calc(15rem + 10px);
     transition: 0.3s;
-    filter: blur(30px);
+    filter: blur(15px);
     scale: 0.9;
-    background: conic-gradient(from var(--gradangle), #00C8B4, #44F7D3, #88FFEB, #E6F3F0, #FFBB9D, #00C8B4);
+    background: conic-gradient(from var(--gradangle), #FF5F6D, #FFC371, #47CACC, #FF5F6D);
     animation-name: gradient-anim;
     animation-duration: 10s;
     animation-iteration-count: infinite;
@@ -86,12 +90,7 @@ section {
     filter: grayscale(100%)
 }
 
-.hero-image-container:hover .hero-image-wrapper {
-    scale: 1;
-}
-
 .hero-image-container:hover .hero-image {
-    scale: 1.01;
     filter: grayscale(0);
 }
 
@@ -107,24 +106,24 @@ section {
 }
 
 .tile {
-    width: 8rem;
-    height: 8rem;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
     background: black;
     cursor: pointer;
     transition: 0.1s;
     border-width: 1px;
     background-size: cover;
-    filter:grayscale(100%);
+    filter:grayscale(100%) brightness(0.75);
 }
 
 .tile:hover {
-    scale: 1.05;
-    filter:grayscale(0);
+    filter:grayscale(0) brightness(1);
 }
 
 .icon-dark {
     border-radius: 50%;
-    border: 1px solid white;
+    border: 0.5px solid white;
     padding: 8px;
     cursor: pointer;
     transition: 0.1s;
@@ -133,23 +132,16 @@ section {
 
 .icon-light {
     border-radius: 50%;
-    border: 1px solid black;
+    border: 0.5px solid black;
     padding: 8px;
     cursor: pointer;
     transition: 0.1s;
     font-size: 20px;
 }
 
-.icon-dark:hover, .icon-light:hover {
-    scale: 1.08;
-    background: #00C8B4;
-    color: #88ffeb;
-    border: 1px solid #00C8B4;
-}
-
 .button-dark {
     border-radius: 9999px;
-    border: 1px solid white;
+    border: 0.5px solid white;
     padding: 5px 7.5px;
     cursor: pointer;
     transition: 0.1s;
@@ -161,7 +153,7 @@ section {
 
 .button-light {
     border-radius: 9999px;
-    border: 1px solid black;
+    border: 0.5px solid black;
     padding: 5px 7.5px;
     cursor: pointer;
     transition: 0.1s;
@@ -171,12 +163,21 @@ section {
     text-align: center;
 }
 
-.button-dark:hover, .button-light:hover {
+.button-dark:hover, .button-light:hover, .icon-dark:hover, .icon-light:hover {
     scale: 1.05;
-    background: #00C8B4;
-    color: #88ffeb;
-    border: 1px solid #00C8B4;
     text-decoration: none;
+}
+
+.button-dark:hover, .icon-dark:hover {
+    background: white;
+    color: black;
+    border: 0.5px solid black;
+}
+
+.button-light:hover, .icon-light:hover {
+    background: black;
+    color: white;
+    border: 0.5px solid white;
 }
 
 .dark {

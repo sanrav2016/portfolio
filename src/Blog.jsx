@@ -79,8 +79,8 @@ const Blog = ({ darkMode, setDarkMode }) => {
             }}
           >
             <div className={`align-left flex flex-col p-12 gap-4 ${darkMode ? "bg-black" : "bg-white"}`}>
-              <div className="text-5xl playfair tracking-tighter w-full">{title}</div>
-              <div className="text-xs tracking-tighter italic">
+              <div className="text-5xl heading-text w-full">{title}</div>
+              <div className="text-sm">
                 <div>{author}<br />{publishedAt}</div>
               </div>
             </div>

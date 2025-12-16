@@ -6,19 +6,39 @@ import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom'
 import Scene from './Scene.jsx'
 import { Icons } from './Footer'
+import LofiPlayer from "./LofiPlayer.jsx";
 
-import profile from '../assets/img/profile.png'
+import headshot from '../assets/img/headshot.jpeg'
 
 const Home = ({ darkMode, setDarkMode }) => {
   const [projects, setProjects] = useState([])
   const [age, setAge] = useState(0);
+  const [scrollPos, setScrollPos] = useState(0);
+
+  const handleScroll = () => {
+    const projectContainer = document.querySelector("#project-container");
+    const n = 5;
+    const fraction = 1 - Math.max(0, Math.min(n * Math.abs(window.scrollY - projectContainer.offsetTop) / (window.innerHeight / 2), 1));
+    setScrollPos(fraction);
+  }
 
   useEffect(() => {
-    const birthDate = new Date("2007-06-06T10:04:00");
+    console.log(scrollPos);
+  }, [scrollPos]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    const birthDate = new Date("June 6, 2007");
     const now = new Date();
     const diffMs = now - birthDate;
     const years = diffMs / (1000 * 60 * 60 * 24 * 365.2425);
     setAge(years);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -34,7 +54,7 @@ const Home = ({ darkMode, setDarkMode }) => {
       </span>
     </div>
     <Scene darkMode={darkMode} />
-    <section className="flex-row h-[100vh]">
+    <section className="flex-row">
       <div>
         <div className="flex flex-wrap justify-center items-center">
           <motion.div
@@ -47,10 +67,14 @@ const Home = ({ darkMode, setDarkMode }) => {
               damping: 25
             }}
           >
-            <div className="align-left flex flex-col p-12 gap-4 z-10">
-              <div className="text-6xl playfair tracking-tighter w-full  z-10">Hi, I'm <br />Sanjay!</div>
-              <div className="text-xs tracking-tighter italic z-10">
-                <div>{Math.round(age)} years old @ <br />Carnegie Mellon University</div>
+            <div className="items-center text-center flex flex-col p-12 gap-4 z-10">
+              <div className="z-10 title-text">
+                <span className="text-4xl tracking-tighter z-10">Hi, I'm</span>
+                <br />
+                <span className="text-5xl title-text tracking-tighter w-full z-10">Sanjay</span>
+              </div>
+              <div className="text-sm tracking-tighter font-light z-10">
+                <div>{Math.floor(age)} years old @ <br />Carnegie Mellon University</div>
                 <div>
                   <Icons darkMode={darkMode} />
                 </div>
@@ -58,6 +82,13 @@ const Home = ({ darkMode, setDarkMode }) => {
 
             </div>
           </motion.div>
+          <LofiPlayer />
+        </div>
+      </div>
+    </section >
+    <section className="flex-row">
+      <div>
+        <div className="flex flex-wrap justify-center items-center">
           <motion.div
             initial={{ scale: 0.5, rotate: 20, opacity: 0 }}
             whileInView={{ rotate: 0, scale: 1, opacity: 1 }}
@@ -71,26 +102,99 @@ const Home = ({ darkMode, setDarkMode }) => {
           >
             <div className="hero-image-wrapper" />
             <div className={`hero-image ${darkMode ? "border-white" : "border-black"}`}>
-              <img src={profile} />
+              <img src={headshot} />
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 25
+            }}
+          >
+            <div className="align-left flex flex-col p-12 gap-4 z-10">
+              <div className="text-5xl heading-text w-full  z-10">About Me</div>
+              <div className="text-sm max-w-sm z-10">
+                <div>I’m a college student in Pittsburgh, PA who loves exploring Electrical and Computer Engineering through projects that help people, like assistive devices and useful apps. I like learning by building and finding ways technology can make everyday life a little easier. In my free time, I enjoy drawing, singing, and Lo-Fi music.</div>
+              </div>
             </div>
           </motion.div>
         </div>
       </div>
     </section >
-    <section>
-      <div className="title">Researcher</div>
-      <div className="flex gap-5 flex-wrap justify-center max-w-100%">
+    <section id="project-container" className="relative h-auto p-0" style={{
+      WebkitMaskImage: "url(#cutout)",
+      WebkitMaskRepeat: "no-repeat",
+      WebkitMaskPosition: "center",
+      WebkitMaskSize: "contain",
+      maskImage: "url(#cutout)",
+      maskRepeat: "no-repeat",
+      maskPosition: "center",
+      maskSize: "contain",
+    }}>
+      <svg
+        width="0"
+        height="0"
+        className="absolute inset-0 w-full h-full pointer-events-none"
+      >
+        <defs>
+          <mask id="cutout" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <text
+              x="50%"
+              y="50vh"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize="8vw"
+              lengthAdjust="spacingAndGlyphs"
+              fill={`rgba(0,0,0,${scrollPos})`}
+              fontFamily="BBH Bartle"
+            >
+              PROJECTS
+            </text>
+          </mask>
+        </defs>
+      </svg>
+      <div className="absolute top-0 left-0 w-full h-screen flex justify-center items-center pointer-events-none z-50">
+        <svg
+          className="w-full h-full absolute inset-0 pointer-events-none"
+        >
+          <text
+            x="50%"
+            y="50%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="8vw"
+            lengthAdjust="spacingAndGlyphs"
+            opacity={`${scrollPos}`}
+            stroke={darkMode ? "white" : "black"}
+            strokeWidth="2"
+            fontFamily="BBH Bartle"
+          >
+            PROJECTS
+          </text>
+        </svg>
+      </div>
+      <div className="flex flex-wrap w-full">
         {
-          projects.filter(x => x.category == "Researcher").map((x, i) =>
+          projects.map((x, i) =>
             <motion.span
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{
                 duration: 0.25,
-                delay: i / 10,
+                delay: i / 20,
               }}
               key={i}
+              style={{
+                flex: `1 1 25%`,
+                minWidth: "150px",
+                minHeight: "150px"
+              }}
             >
               <Link to={`/${x.slug}`}>
                 <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
@@ -99,53 +203,7 @@ const Home = ({ darkMode, setDarkMode }) => {
           )
         }
       </div>
-    </section>
-    <section>
-      <div className="title">Maker</div>
-      <div className="flex gap-5 flex-wrap justify-center max-w-100%">
-        {
-          projects.filter(x => x.category == "Maker").map((x, i) =>
-            <motion.span
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.25,
-                delay: i / 10,
-              }}
-              key={i}
-            >
-              <Link to={`/${x.slug}`}>
-                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
-              </Link>
-            </motion.span>
-          )
-        }
-      </div>
-    </section>
-    <section>
-      <div className="title">Artist</div>
-      <div className="flex gap-5 flex-wrap justify-center max-w-100%">
-        {
-          projects.filter(x => x.category == "Artist").map((x, i) =>
-            <motion.span
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.25,
-                delay: i / 10,
-              }}
-              key={i}
-            >
-              <Link to={`/${x.slug}`}>
-                <div className={`tile ${darkMode ? "border-white" : "border-black"}`} style={{ backgroundImage: `url(${urlFor(x.mainImage).url()})` }} />
-              </Link>
-            </motion.span>
-          )
-        }
-      </div>
-    </section>
+    </section >
   </div >
 };
 

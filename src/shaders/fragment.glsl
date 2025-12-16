@@ -6,7 +6,7 @@ uniform bool dark;
 varying vec2 vUv;
 
 float rand(vec2 n) {
-    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5433);
+    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * uTime * 0.000005 * 43758.5433);
 }
 
 float noise(vec2 p) {
@@ -94,7 +94,7 @@ void main() {
     vec3 watercolor = mix(bkg, floodColor, 0.98);
     gl_FragColor = vec4(watercolor, 1);
     vec3 gradient = hsl2rgb(vec3(fract(uTime*0.1), 0.9, 0.5));
-    if(dist < disp * 150. + 0.02 && mouseMove) {
+    if(dist < disp * 200. + 0.02 && mouseMove) {
         gl_FragColor = vec4(gradient, 1.0);
     }
 }

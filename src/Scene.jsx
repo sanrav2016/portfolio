@@ -133,7 +133,7 @@ const Wave = ({ darkMode }) => {
 const Scene = ({ darkMode }) => {
   return (
     <div className="fixed w-screen h-screen top-0 left-0 object-cover select-none">
-      <div className="absolute top-0 left-0 w-full h-full bg-transparent" />
+      <div className="absolute top-0 left-0 w-full h-full bg-transparent inset-0" />
       <Canvas onContextMenu={(e) => e.preventDefault()}>
         <Suspense>
           <Wave darkMode={darkMode} />
