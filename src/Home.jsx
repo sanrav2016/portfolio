@@ -71,7 +71,7 @@ const Home = ({ darkMode, setDarkMode }) => {
 
   return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
     <div className="fixed top-4 right-4 w-8 h-8 flex justify-center items-center z-10">
-      <span onClick={() => setDarkMode(!darkMode)} className={`${darkMode ? "icon-dark" : "icon-light"}`} style={{ "border": 0 }}>
+      <span onClick={() => setDarkMode(!darkMode)} className={`${darkMode ? "icon-light bg-black" : "icon-dark bg-white"}`} style={{ "border": 0 }}>
         {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
       </span>
     </div>
@@ -216,7 +216,7 @@ const Home = ({ darkMode, setDarkMode }) => {
           </text>
         </svg>
       </div>
-      <div className="flex flex-wrap w-full mt-[-100vh] md:mt-0">
+      <div className="flex justify-around flex-wrap w-full mt-[-100vh] md:mt-0">
         {
           projects.map((x, i) =>
             <motion.span
@@ -231,7 +231,9 @@ const Home = ({ darkMode, setDarkMode }) => {
               style={{
                 flex: `1 1 25%`,
                 minWidth: "150px",
-                minHeight: "150px"
+                minHeight: "150px",
+                maxWidth: "25%",
+                maxHeight: "25%",
               }}
             >
               <Link to={`/${x.slug}`}>

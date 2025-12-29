@@ -55,37 +55,39 @@ const Blog = ({ darkMode, setDarkMode }) => {
   return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
     <Link to="/">
       <div className="fixed top-4 left-4 w-8 h-8 flex justify-center items-center">
-        <span className={`${darkMode ? "icon-dark" : "icon-light"}`} style={{ "border": 0 }}>
+        <span onClick={() => setDarkMode(!darkMode)} className={`${darkMode ? "icon-light bg-black" : "icon-dark bg-white"}`} style={{ "border": 0 }}>
           <IoArrowBack />
         </span>
       </div>
     </Link>
     <div className="fixed top-4 right-4 w-8 h-8 flex justify-center items-center">
-      <span onClick={() => setDarkMode(!darkMode)} className={`${darkMode ? "icon-dark" : "icon-light"}`} style={{ "border": 0 }}>
+      <span onClick={() => setDarkMode(!darkMode)} className={`${darkMode ? "icon-light bg-black" : "icon-dark bg-white"}`} style={{ "border": 0 }}>
         {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
       </span>
     </div>
+
     <section className="hero-blog-wrapper" style={{ backgroundImage: `url(${mainImage ? urlFor(mainImage).url() : mainImage})` }}>
-      <div>
-        <div className="flex flex-wrap justify-center items-center">
+      <div className="flex justify-start items-end h-full w-full bg-gradient-to-t from-black to-transparent p-8">
+        {
+          title != "" &&
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, marginBottom: "-200px" }}
+            whileInView={{ opacity: 1, marginBottom: 0 }}
+            viewport={{ once: true, amount: 1 }}
             transition={{
               type: "spring",
               stiffness: 300,
               damping: 25
             }}
+            className="h-full title-content"
+            lang="en"
           >
-            <div className={`align-left flex flex-col p-12 gap-4 ${darkMode ? "bg-black" : "bg-white"}`}>
-              <div className="text-5xl heading-text w-full">{title}</div>
-              <div className="text-sm">
-                <div>{author}<br />{publishedAt}</div>
-              </div>
+            <div className="text-5xl title-text hyphenate">{title}</div>
+            <div className="text-sm">
+              <div>{publishedAt}</div>
             </div>
           </motion.div>
-        </div>
+        }
       </div>
     </section>
     <section className={`w-full h-full ${darkMode ? "bg-black" : "bg-white"}`}>

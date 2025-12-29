@@ -86,9 +86,10 @@ section {
 
 .hero-blog-wrapper {
     background-size: cover;
-    height: min(80vh, 800px);
+    height: min(50vh, 300px);
     flex-direction: row;
     background-position: center;
+    padding: 0;
 }
 
 .hero-image {
@@ -241,13 +242,34 @@ section {
     color: white !important;
 }
 
-.body-content {
+.title-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 60px;
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 30px;
+    text-align: left;
+    color: white;
+}
+
+.hyphenate {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.body-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
     margin: 50px 0;
-    text-align: center;
+    text-align: left;
 }
 
 .body-content a,
