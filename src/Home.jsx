@@ -17,10 +17,7 @@ const useIsSmallScreen = (breakpoint = 768) => {
     const handleWindowSizeChange = () => {
       setWidth(window.innerWidth);
     };
-
     window.addEventListener('resize', handleWindowSizeChange);
-
-    // Initial check on mount (important for server-side rendering concerns)
     handleWindowSizeChange();
 
     return () => {
@@ -35,18 +32,16 @@ const Home = ({ darkMode, setDarkMode }) => {
   const [projects, setProjects] = useState([])
   const [age, setAge] = useState(0);
   const [scrollPos, setScrollPos] = useState(0);
-  const isSmallScreen = useIsSmallScreen(768)
+  const [actualScrollPos, setActualScrollPos] = useState(0);
+  const isSmallScreen = useIsSmallScreen()
 
   const handleScroll = () => {
     const projectContainer = document.querySelector("#project-container");
     const n = 5;
     const fraction = 1 - Math.max(0, Math.min(n * Math.abs(window.scrollY - projectContainer.offsetTop) / (window.innerHeight / 2), 1));
     setScrollPos(fraction);
+    setActualScrollPos(window.scrollY);
   }
-
-  useEffect(() => {
-    console.log(scrollPos);
-  }, [scrollPos]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -138,9 +133,9 @@ const Home = ({ darkMode, setDarkMode }) => {
             }}
           >
             <div className="align-left flex flex-col p-12 gap-4 z-10">
-              <div className="text-5xl heading-text w-full  z-10">About Me</div>
+              <div className="text-5xl heading-text w-full z-10">About Me</div>
               <div className="text-sm max-w-sm z-10">
-                <div>I’m a college student in Pittsburgh, PA who loves exploring Electrical and Computer Engineering through projects that help people, like assistive devices and useful apps. I like learning by building and finding ways technology can make everyday life a little easier. In my free time, I enjoy drawing, singing, and Lo-Fi music.</div>
+                <div>My name is Sanjay Ravishankar, and I'm a undergrad student in Pittsburgh majoring in Electrical and Computer Engineering. I love working on projects that help people, building and finding ways technology can make everyday life a little easier. In my free time, I enjoy drawing, singing, and LoFi music.</div>
               </div>
             </div>
           </motion.div>
@@ -230,10 +225,10 @@ const Home = ({ darkMode, setDarkMode }) => {
               key={i}
               style={{
                 flex: `1 1 25%`,
-                minWidth: "150px",
-                minHeight: "150px",
-                maxWidth: "25%",
-                maxHeight: "25%",
+                minWidth: "300px",
+                minHeight: "300px",
+                maxWidth: "100%",
+                maxHeight: "100%",
               }}
             >
               <Link to={`/${x.slug}`}>

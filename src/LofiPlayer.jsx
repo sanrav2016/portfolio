@@ -1,54 +1,13 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import profile from "../assets/img/profile.png";
 import { FaPlay, FaPause } from "react-icons/fa";
+import { useLofi } from './LofiProvider'
 
 export default function LofiPlayer() {
-    const audioRef = useRef(null);
+    const { playing, loading, toggle, bannerVisible } = useLofi();
 
-    const [playing, setPlaying] = useState(false);
-    const [loading, setLoading] = useState(false);
-
-    const togglePlay = async () => {
-        if (!audioRef.current) return;
-
-        if (!playing) {
-            try {
-                setLoading(true);
-                await audioRef.current.play();
-            } catch (e) {
-                console.error("Playback failed:", e);
-                setLoading(false);
-            }
-        } else {
-            audioRef.current.pause();
-        }
-    };
-
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        const onPlaying = () => {
-            setPlaying(true);
-            setLoading(false);
-        };
-        const onPause = () => {
-            setPlaying(false);
-            setLoading(false);
-        };
-        const onWaiting = () => setLoading(true);
-
-        audio.addEventListener("playing", onPlaying);
-        audio.addEventListener("pause", onPause);
-        audio.addEventListener("waiting", onWaiting);
-
-        return () => {
-            audio.removeEventListener("playing", onPlaying);
-            audio.removeEventListener("pause", onPause);
-            audio.removeEventListener("waiting", onWaiting);
-        };
-    }, []);
+    const showOverlay = !playing && !loading && !bannerVisible;
 
     return (
         <motion.div
@@ -59,7 +18,7 @@ export default function LofiPlayer() {
             className="hero-image-container"
         >
             <div
-                onClick={togglePlay}
+                onClick={toggle}
                 style={{
                     cursor: "pointer",
                     display: "inline-block",
@@ -72,7 +31,7 @@ export default function LofiPlayer() {
                 </div>
 
                 <AnimatePresence>
-                    {!playing && !loading && (
+                    {showOverlay && (
                         <OverlayIcon key="play">
                             <PlayIcon />
                         </OverlayIcon>
@@ -83,25 +42,12 @@ export default function LofiPlayer() {
                             <Spinner />
                         </OverlayIcon>
                     )}
-
-                    {playing && !loading && (
-                        <OverlayIcon key="pause">
-                            <PauseIcon />
-                        </OverlayIcon>
-                    )}
                 </AnimatePresence>
-
-                <audio
-                    ref={audioRef}
-                    src="https://streams.ilovemusic.de/iloveradio17.mp3"
-                    preload="none"
-                />
             </div>
         </motion.div>
     );
 }
 
-// ---------------- Overlay Wrapper ----------------
 function OverlayIcon({
     children,
     hoverDisabled = false,
@@ -126,13 +72,12 @@ function OverlayIcon({
     );
 }
 
-// ---------------- Play Icon ----------------
 function PlayIcon() {
     return (
         <motion.span
             initial={{ scale: 0.6 }}
             animate={{ scale: [1, 1.05, 1] }}
-            whileHover={{ scale: 1.15 }} // freeze/override breathing when hovered
+            whileHover={{ scale: 1.15 }}
             transition={{
                 rotate: { type: "spring", stiffness: 400, damping: 18 },
                 scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
@@ -144,19 +89,6 @@ function PlayIcon() {
     );
 }
 
-// ---------------- Pause Icon ----------------
-function PauseIcon() {
-    return (
-        <motion.span
-            transition={{ type: "spring", stiffness: 300, damping: 18 }}
-            style={{ fontSize: 72, color: "white" }}
-        >
-            <FaPause />
-        </motion.span>
-    );
-}
-
-// ---------------- Spinner ----------------
 function Spinner() {
     const radius = 30;
     const stroke = 15;
