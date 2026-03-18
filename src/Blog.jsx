@@ -78,7 +78,7 @@ const Blog = ({ darkMode, setDarkMode }) => {
             className="h-full title-content"
             lang="en"
           >
-            <div className="text-6xl heading-text hyphenate">{data.title}</div>
+            <div className="text-6xl hyphenate">{data.title}</div>
             <div className="text-sm opacity-75">
               <div>Created: {new Date(data.publishedAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
               <div>Last edited: {new Date(data._updatedAt).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
