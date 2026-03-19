@@ -356,6 +356,11 @@ section {
     flex-direction: column;
     gap: 1rem;
 }
+
+.body-content-carousel ul {
+    list-style: disc;
+    padding-left: 20px;
+}
     
 .body-content-carousel a,
 .body-content-carousel a:visited {
