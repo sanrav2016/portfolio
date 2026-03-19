@@ -31,8 +31,8 @@ const App = () => {
       <BrowserRouter future={{ v7_startTransition: true }}>
         <Routes>
           <Route path="/">
-            <Route index element={<Home darkMode={darkMode} setDarkMode={setDarkMode} />} />
-            <Route path=":slug" element={<Blog darkMode={darkMode} setDarkMode={setDarkMode} />} />
+            <Route index element={<Home darkMode={true} setDarkMode={setDarkMode} />} />
+            <Route path=":slug" element={<Blog darkMode={true} setDarkMode={setDarkMode} />} />
           </Route>
         </Routes>
       </BrowserRouter>

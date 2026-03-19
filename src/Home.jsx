@@ -88,11 +88,11 @@ const Home = ({ darkMode, setDarkMode }) => {
   const currentProject = projects[currentSlide]
 
   return <div className={`w-full h-full relative transition-all ${darkMode ? "dark" : ""}`}>
-    <div className="fixed top-4 left-4 w-8 h-8 flex justify-center items-center z-10">
+    {/*<div className="fixed top-4 left-4 w-8 h-8 flex justify-center items-center z-10">
       <span onClick={() => setDarkMode(!darkMode)} className={`${darkMode ? "icon-light bg-black" : "icon-dark bg-white"}`} style={{ "border": 0 }}>
         {darkMode ? <IoMoonOutline /> : <IoSunnyOutline />}
       </span>
-    </div>
+    </div>*/}
     <Scene darkMode={darkMode} />
     <section className="flex-row">
       <div>
